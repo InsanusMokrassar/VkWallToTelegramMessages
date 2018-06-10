@@ -28,7 +28,7 @@ class Post(
     val likes: Int = 0,
     @SerializedName("reposts#count")
     val reposts: Int = 0,
-    val attachments: List<IObject<Any>>,
+    val attachments: List<Any>,
     val is_pinned: Int = 0
 ) {
     val isPost: Boolean
