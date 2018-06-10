@@ -22,12 +22,6 @@ class Post(
     val replyPostId: Long? = null,
     @SerializedName("friends_only")
     val friendsOnly: Byte = 0,
-    @SerializedName("comments#count")
-    val comments: Int = 0,
-    @SerializedName("likes#count")
-    val likes: Int = 0,
-    @SerializedName("reposts#count")
-    val reposts: Int = 0,
     val attachments: List<Any>,
     val is_pinned: Int = 0
 ) {
