@@ -12,6 +12,7 @@ class Config(
     val botApiToken: String,
     val wallDomain: String,
     val chatId: Long,
+    val updateDelay: Long = 60 * 1000,
     val wallOwnerId: Long? = null,
     val dbPlace : String? = null,
     val debug: Boolean = false
