@@ -13,6 +13,8 @@ private class LauncherArgumentsParser(parser: ArgParser) {
 class Config(
     val accessToken: String,
     val botApiToken: String,
+    val wallDomain: String,
+    val chatId: String,
     val debug: Boolean = false
 )
 
@@ -27,7 +29,7 @@ fun main(args: Array<String>) {
     VKIntegrationHolder(config.accessToken).apply {
         runBlocking {
             wall.get(
-                "hose_socks"
+                config.wallDomain
             ).await().let {
                 println(it)
                 it.response.items.forEach {

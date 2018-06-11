@@ -1,5 +1,7 @@
 {
   "accessToken":"Some your access token which was got from vk application management page",
   "botApiToken": "123456789:ABCDEFGHIJKLMNOPQRTSUVWXYZXYZXYZXYZ",
+  "wallDomain": "Some domain of VK wall",
+  "chatId": "Some chat id or chat username",
   "debug": true
 }
