@@ -2,6 +2,8 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models
 
 import com.github.insanusmokrassar.IObjectK.interfaces.IInputObject
 import com.github.insanusmokrassar.IObjectK.interfaces.IObject
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.Attachment
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.asAttachment
 import com.google.gson.annotations.SerializedName
 import javafx.geometry.Pos
 import java.util.concurrent.TimeUnit
@@ -41,6 +43,17 @@ class Post(
 
     val dateInMillis: Long
         get() = TimeUnit.SECONDS.toMillis(date)
+
+    private var realAdaptedAttachments: List<Attachment>? = null
+
+    val adaptedAttachments: List<Attachment>
+        get() = realAdaptedAttachments ?: let {
+            attachments.map {
+                it.asAttachment()
+            }.also {
+                realAdaptedAttachments = it
+            }
+        }
 }
 
 class PostsLists(count: Long, items: List<Post>) : Lists<Post>(count, items)

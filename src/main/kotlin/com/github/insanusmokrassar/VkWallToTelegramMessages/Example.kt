@@ -13,6 +13,10 @@ fun main(args: Array<String>) {
                 println(it)
                 it.response.items.forEach {
                     println(it.toIObject())
+                    println("Attachments:")
+                    it.adaptedAttachments.forEach {
+                        println(it.toIObject())
+                    }
                 }
             }
         }
