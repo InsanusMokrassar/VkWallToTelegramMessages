@@ -8,6 +8,7 @@ val handlersOrder = linkedSetOf(
     MediaGroupHandler(),
     VideoHandler(),
     PhotoHandler(),
+    AudioHandler(),
     DocumentHandler()
 )
 

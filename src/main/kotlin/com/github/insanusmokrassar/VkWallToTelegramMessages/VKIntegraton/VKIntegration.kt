@@ -1,9 +1,7 @@
 package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton
 
-import com.github.insanusmokrassar.IObjectKRealisations.toIObject
 import com.github.insanusmokrassar.VkWallToTelegramMessages.*
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.Post
-import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.Attachment
 import kotlinx.coroutines.experimental.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
