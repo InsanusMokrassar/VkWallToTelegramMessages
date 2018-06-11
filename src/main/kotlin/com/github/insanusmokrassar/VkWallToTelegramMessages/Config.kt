@@ -12,6 +12,7 @@ class Config(
     val botApiToken: String,
     val wallDomain: String,
     val chatId: Long,
+    val wallOwnerId: Long? = null,
     val dbPlace : String? = null,
     val debug: Boolean = false
 ) {
@@ -19,6 +20,6 @@ class Config(
         get() = (
             dbPlace ?: "${System.getenv("HOME")}$separator.config${separator}VkWallToTelegramMessages$separator$WALL_PATH$separator$CHAT_ID_PATH"
             )
-            .replace(WALL_PATH, wallDomain)
+            .replace(WALL_PATH, wallOwnerId ?.toString() ?: wallDomain)
             .replace(CHAT_ID_PATH, chatId.toString())
 }

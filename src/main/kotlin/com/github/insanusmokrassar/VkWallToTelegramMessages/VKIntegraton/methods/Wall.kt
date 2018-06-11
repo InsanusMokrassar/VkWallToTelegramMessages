@@ -12,7 +12,14 @@ interface Wall {
     @GET("wall.get?v=$version")
     fun get(
         @Query("domain") domain: String,
-        @Query("offset") offset: Long = 0,
-        @Query("count") count: Long = 20
+        @Query("offset") offset: Int = 0,
+        @Query("count") count: Int = 20
+    ) : Deferred<PostsResponse>
+
+    @GET("wall.get?v=$version")
+    fun get(
+        @Query("owner_id") ownerId: Long,
+        @Query("offset") offset: Int = 0,
+        @Query("count") count: Int = 20
     ) : Deferred<PostsResponse>
 }

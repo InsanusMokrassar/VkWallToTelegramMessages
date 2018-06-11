@@ -1,5 +1,6 @@
 package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton
 
+import com.github.insanusmokrassar.IObjectKRealisations.toIObject
 import com.github.insanusmokrassar.VkWallToTelegramMessages.*
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.Post
 import kotlinx.coroutines.experimental.*
@@ -26,16 +27,30 @@ class VKIntegration(
                     try {
                         val settings = db.settings
                         val posts = mutableListOf<Post>()
+                        var offset = 0
                         while (true) {
-                            val originalList = methodsHolder.wall.get(
-                                config.wallDomain
+                            val originalList = (
+                                config.wallOwnerId ?.let {
+                                    methodsHolder.wall.get(
+                                        it,
+                                        offset
+                                    )
+                                } ?: methodsHolder.wall.get(
+                                    config.wallDomain,
+                                    offset
+                                )
                             ).await().response.items
+                            if (originalList.isEmpty()) {
+                                break
+                            }
                             val filtered = originalList.filter {
                                 it.dateInMillis > settings.lastReadDate
                             }
                             posts.addAll(filtered)
                             if (originalList.size > filtered.size) {
                                 break
+                            } else {
+                                offset += originalList.size
                             }
                         }
                         if (posts.isNotEmpty()) {

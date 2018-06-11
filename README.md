@@ -7,7 +7,12 @@ For using this bot you will need to fill four main parameters:
 * `accessToken` - Token for work with `VK API`. You can read about getting this token [here](https://vk.com/dev/access_token)
 * `botApiToken` - Token for work with `Telegram Bot API`. Open [`How do I create a bot`](https://core.telegram.org/bots#3-how-do-i-create-a-bot)
 small manual (it is simple). Remember that all what you need - to get `bot API token` and put it in the settings
-* `wallDomain` - Domain of wall which you want to receive in the telegram. For example, in address `https://vk.com/example`
+* `VK Group`
+    * `wallOwnerId` - If your target is group with domain as `club123456789` you must get the number
+    after word `club` and put into `wallOwnerId` in config with minus (`-123456789`, for example). For users
+    you will get `id123456789` number after `id` word and put into config WITHOUT `-` (`123456789`)
+    * `wallDomain` - Domain of wall which you want to receive if previous variant
+    is not for you in the telegram. For example, in address `https://vk.com/example`
 `wallDomain` is `example`
 * `chatId` - ID number of group/channel/private chat which must receive messages from VK wall
 
