@@ -17,4 +17,7 @@ class Photo(
 
     val biggestSize: Size?
         get() = sizes.max()
+
+    val textIsCorrect: Boolean
+        get() = text != null && text.isNotEmpty()
 }

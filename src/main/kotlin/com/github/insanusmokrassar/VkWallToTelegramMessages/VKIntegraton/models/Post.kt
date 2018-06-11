@@ -2,8 +2,7 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models
 
 import com.github.insanusmokrassar.IObjectK.interfaces.IInputObject
 import com.github.insanusmokrassar.IObjectK.interfaces.IObject
-import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.Attachment
-import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.asAttachment
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.*
 import com.google.gson.annotations.SerializedName
 import javafx.geometry.Pos
 import java.util.concurrent.TimeUnit
@@ -11,9 +10,9 @@ import java.util.concurrent.TimeUnit
 class Post(
     val id: Long,
     val date: Long,// Unix timestamp
-    val text: String = "",
     @SerializedName("post_type")
     val postType: String,
+    val text: String? = null,
     @SerializedName("owner_id")
     val ownerId: Long? = null,
     @SerializedName("from_id")
@@ -24,7 +23,7 @@ class Post(
     val replyPostId: Long? = null,
     @SerializedName("friends_only")
     val friendsOnly: Byte = 0,
-    val attachments: List<Any>,
+    val attachments: List<Any>? = null,
     val is_pinned: Int = 0
 ) {
     val isPost: Boolean
@@ -48,10 +47,15 @@ class Post(
 
     val adaptedAttachments: List<Attachment>
         get() = realAdaptedAttachments ?: let {
-            attachments.map {
+            (attachments ?.map {
                 it.asAttachment()
-            }.also {
-                realAdaptedAttachments = it
+            } ?: emptyList()).also {
+                realAdaptedAttachments = it.let {
+                    list ->
+                    text ?.let {
+                        list.plus(TextAttachment(it))
+                    } ?: list
+                }
             }
         }
 }

@@ -2,6 +2,7 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegrat
 
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.Post
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.Attachment
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.TextAttachment
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.doc.DocumentAttachment
 import com.pengrad.telegrambot.request.BaseRequest
 import com.pengrad.telegrambot.request.SendDocument
@@ -25,7 +26,13 @@ class DocumentHandler : PostHandler {
                         URL(it.doc.simpleUrl).openStream().readBytes()
                     ).fileName(
                         it.doc.title
-                    )
+                    ).also {
+                        if (leftAttachments.size == 1 && leftAttachments.first() is TextAttachment) {
+                            it.caption(
+                                (leftAttachments.removeAt(0) as TextAttachment).text
+                            )
+                        }
+                    }
                 }
             }
         }

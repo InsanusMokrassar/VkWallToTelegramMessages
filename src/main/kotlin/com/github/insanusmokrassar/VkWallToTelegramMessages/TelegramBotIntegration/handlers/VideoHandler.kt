@@ -2,6 +2,7 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegrat
 
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.Post
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.Attachment
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.TextAttachment
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.video.VideoAttachment
 import com.pengrad.telegrambot.model.request.*
 import com.pengrad.telegrambot.request.*
@@ -47,15 +48,28 @@ class VideoHandler : PostHandler {
                                     ).url(videoAttachment.video.url)
                                 )
                             )
-                        ).caption(
-                            videoAttachment.video.description.let {
-                                if (it.length > maxDescriptionLength) {
-                                    it.substring(maxDescriptionLength) + descriptionCutter
+                        ).also {
+                            message ->
+                            (videoAttachment.video.description.let {
+                                if (it.isEmpty()) {
+                                    if (it.length > maxDescriptionLength) {
+                                        it.substring(maxDescriptionLength) + descriptionCutter
+                                    } else {
+                                        it
+                                    }
                                 } else {
-                                    it
+                                    null
                                 }
+                            } ?:let {
+                                if (leftAttachments.size == 1 && leftAttachments.first() is TextAttachment) {
+                                    (leftAttachments.removeAt(0) as TextAttachment).text
+                                } else {
+                                    null
+                                }
+                            }) ?.let {
+                                message.caption(it)
                             }
-                        )
+                        }
                     }
                 }
             }

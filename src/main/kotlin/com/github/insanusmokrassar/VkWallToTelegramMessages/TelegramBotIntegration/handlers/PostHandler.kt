@@ -9,7 +9,8 @@ val handlersOrder = linkedSetOf(
     VideoHandler(),
     PhotoHandler(),
     AudioHandler(),
-    DocumentHandler()
+    DocumentHandler(),
+    TextHandler()
 )
 
 typealias PostHandler = (

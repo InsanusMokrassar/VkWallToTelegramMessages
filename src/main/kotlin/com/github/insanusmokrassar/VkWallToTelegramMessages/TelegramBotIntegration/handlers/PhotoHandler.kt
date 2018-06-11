@@ -2,6 +2,7 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegrat
 
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.Post
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.Attachment
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.TextAttachment
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.photo.PhotoAttachment
 import com.pengrad.telegrambot.request.BaseRequest
 import com.pengrad.telegrambot.request.SendPhoto
@@ -12,13 +13,20 @@ class PhotoHandler : PostHandler {
             it is PhotoAttachment
         }.mapNotNull {
             (it as PhotoAttachment).let {
-                leftAttachments.remove(it)
+                photoAttachment ->
+                leftAttachments.remove(photoAttachment)
                 SendPhoto(
                     chatId,
-                    it.photo.biggestSize ?. url ?: throw IllegalArgumentException("Photo must have at least one size")
+                    photoAttachment.photo.biggestSize ?. url ?: throw IllegalArgumentException("Photo must have at least one size")
                 ).caption(
-                    it.photo.text
-                )
+                    photoAttachment.photo.text
+                ).also {
+                    if (leftAttachments.size == 1 && leftAttachments.first() is TextAttachment && !photoAttachment.photo.textIsCorrect) {
+                        it.caption(
+                            (leftAttachments.removeAt(0) as TextAttachment).text
+                        )
+                    }
+                }
             }
         }
     }
