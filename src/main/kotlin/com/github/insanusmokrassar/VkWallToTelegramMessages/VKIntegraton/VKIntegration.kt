@@ -73,8 +73,8 @@ class VKIntegration(
                 }
             },
             0,
-            10,
-            TimeUnit.SECONDS
+            config.updateDelay,
+            TimeUnit.MILLISECONDS
         )
     }
 }
