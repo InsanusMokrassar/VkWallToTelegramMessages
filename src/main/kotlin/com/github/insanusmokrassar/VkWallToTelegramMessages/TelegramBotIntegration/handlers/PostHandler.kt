@@ -6,7 +6,8 @@ import com.pengrad.telegrambot.request.BaseRequest
 
 val handlersOrder = linkedSetOf(
     MediaGroupHandler(),
-    VideoHandler()
+    VideoHandler(),
+    DocumentHandler()
 )
 
 typealias PostHandler = (

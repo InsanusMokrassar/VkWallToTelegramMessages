@@ -22,7 +22,7 @@ class VKIntegration(
     private var job: Job? = null
 
     init {
-        scheduler.schedule(
+        scheduler.scheduleAtFixedRate(
             {
                 job ?: launch {
                     try {
@@ -74,6 +74,7 @@ class VKIntegration(
                     job = it
                 }
             },
+            0,
             10,
             TimeUnit.SECONDS
         )
