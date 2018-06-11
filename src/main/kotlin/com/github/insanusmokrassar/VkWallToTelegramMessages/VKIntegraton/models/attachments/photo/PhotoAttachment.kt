@@ -4,6 +4,4 @@ import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.
 
 class PhotoAttachment(
     val photo: Photo
-) : Attachment(
-    "photo"
-)
+) : Attachment("photo")

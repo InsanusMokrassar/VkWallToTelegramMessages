@@ -10,4 +10,7 @@ class Document(
     val ext: String = "gif",
     val size: Int? = null,
     val preview: Preview? = null
-) : AttachmentBase()
+) : AttachmentBase() {
+    val simpleUrl: String
+        get() = "https://vk.com/doc${ownerId}_$id"
+}

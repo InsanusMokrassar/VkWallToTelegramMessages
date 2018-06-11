@@ -3,7 +3,6 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegrat
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.Post
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.Attachment
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.doc.DocumentAttachment
-import com.pengrad.telegrambot.model.request.ParseMode
 import com.pengrad.telegrambot.request.BaseRequest
 import com.pengrad.telegrambot.request.SendDocument
 import java.net.URL
@@ -21,12 +20,9 @@ class DocumentHandler : PostHandler {
             it.mapNotNull {
                 (it as? DocumentAttachment) ?.let {
                     leftAttachments.remove(it)
-                    val url = URL(it.doc.url)
                     SendDocument(
                         chatId,
-                        url.openStream().use {
-                            it.readBytes()
-                        }
+                        URL(it.doc.simpleUrl).openStream().readBytes()
                     ).fileName(
                         it.doc.title
                     )
