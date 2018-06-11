@@ -6,9 +6,11 @@ import kotlinx.coroutines.experimental.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
+typealias NewPostsCallback = suspend (List<Post>) -> Unit
+
 class VKIntegration(
     config: Config,
-    action: (List<Post>) -> Unit,
+    action: NewPostsCallback,
     private val db: DB
 ) {
     private val methodsHolder = VKMethodsHolder(config.accessToken)
