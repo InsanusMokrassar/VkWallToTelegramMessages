@@ -1,15 +1,9 @@
 package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments
 
-import com.google.gson.annotations.SerializedName
-import java.util.concurrent.TimeUnit
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.VKMethodsHolder
 
 open class Attachment(
     val type: String
 ) {
-    val id: Long = -1
-    @SerializedName("owner_id")
-    val ownerId: Long = -1
-    @SerializedName("access_key")
-    val accessKey: String = ""
-    val date: Long = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
+    open suspend fun prepareAttachment(vkMethodsHolder: VKMethodsHolder) {  }
 }

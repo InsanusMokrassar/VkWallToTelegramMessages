@@ -3,10 +3,12 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models
 import com.github.insanusmokrassar.IObjectKRealisations.*
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.doc.DocumentAttachment
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.photo.PhotoAttachment
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.video.VideoAttachment
 
 private val attachmentsMap = mapOf(
     "photo" to PhotoAttachment::class.java,
-    "doc" to DocumentAttachment::class.java
+    "doc" to DocumentAttachment::class.java,
+    "video" to VideoAttachment::class.java
 )
 
 @Throws(UnsupportedAttachmentException::class)

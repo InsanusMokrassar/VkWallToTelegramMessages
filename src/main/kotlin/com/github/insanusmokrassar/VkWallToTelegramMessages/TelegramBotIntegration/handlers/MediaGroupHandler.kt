@@ -3,7 +3,9 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegrat
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.Post
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.Attachment
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.photo.PhotoAttachment
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.video.VideoAttachment
 import com.pengrad.telegrambot.model.request.InputMediaPhoto
+import com.pengrad.telegrambot.model.request.InputMediaVideo
 import com.pengrad.telegrambot.request.BaseRequest
 import com.pengrad.telegrambot.request.SendMediaGroup
 
@@ -12,24 +14,29 @@ class MediaGroupHandler : PostHandler {
         chatId: Long,
         post: Post,
         leftAttachments: MutableList<Attachment>
-    ): BaseRequest<*, *>? {
+    ): List<BaseRequest<*, *>> {
         return leftAttachments.filter {
-            it is PhotoAttachment
+            it is PhotoAttachment || (it is VideoAttachment && it.video.player != null)
         }.let {
             if (it.size > 1) {
-                SendMediaGroup(
-                    chatId,
-                    *it.mapNotNull {
-                        (it as? PhotoAttachment) ?.let {
-                            leftAttachments.remove(it)
-                            it.photo.biggestSize ?. url ?.let {
-                                InputMediaPhoto(it)
+                listOf(
+                    SendMediaGroup(
+                        chatId,
+                        *it.mapNotNull {
+                            (it as? PhotoAttachment) ?.let {
+                                leftAttachments.remove(it)
+                                it.photo.biggestSize ?. url ?.let {
+                                    InputMediaPhoto(it)
+                                }
+                            } ?: (it as? VideoAttachment) ?.let {
+                                leftAttachments.remove(it)
+                                InputMediaVideo(it.video.player)
                             }
-                        }
-                    }.toTypedArray()
+                        }.toTypedArray()
+                    )
                 )
             } else {
-                null
+                emptyList()
             }
         }
     }

@@ -42,7 +42,7 @@ class TelegramBotIntegration(
             post ->
             val attachmentsMutable = post.adaptedAttachments.toMutableList()
             handlersOrder.forEach {
-                it(chatId, post, attachmentsMutable) ?.let {
+                it(chatId, post, attachmentsMutable).forEach {
                     bot.execute(it)
                 }
             }

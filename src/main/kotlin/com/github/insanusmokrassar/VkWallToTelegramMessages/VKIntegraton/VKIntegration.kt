@@ -3,6 +3,7 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton
 import com.github.insanusmokrassar.IObjectKRealisations.toIObject
 import com.github.insanusmokrassar.VkWallToTelegramMessages.*
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.Post
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.Attachment
 import kotlinx.coroutines.experimental.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -46,7 +47,14 @@ class VKIntegration(
                             val filtered = originalList.filter {
                                 it.dateInMillis > settings.lastReadDate
                             }
-                            posts.addAll(filtered)
+                            filtered.forEach {
+                                it.adaptedAttachments.forEach {
+                                    it.prepareAttachment(methodsHolder)
+                                }
+                            }
+                            posts.addAll(
+                                filtered.sortedBy { it.date }
+                            )
                             if (originalList.size > filtered.size) {
                                 break
                             } else {

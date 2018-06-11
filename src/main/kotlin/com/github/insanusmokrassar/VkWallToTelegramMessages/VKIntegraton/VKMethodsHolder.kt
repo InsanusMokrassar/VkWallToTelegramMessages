@@ -1,7 +1,7 @@
 package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton
 
 import com.github.insanusmokrassar.IObjectKRealisations.doUsingDefaultGSON
-import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.methods.Wall
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.methods.*
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -13,6 +13,7 @@ class VKMethodsHolder(
     accessToken: String
 ) {
     val wall: Wall
+    val video: Video
 
     init {
         val okHttpClient = OkHttpClient.Builder()
@@ -32,5 +33,6 @@ class VKMethodsHolder(
         }
 
         wall = retrofit.create(Wall::class.java)
+        video = retrofit.create(Video::class.java)
     }
 }
