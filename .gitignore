@@ -3,4 +3,6 @@ out/*
 *.iml
 target
 
+config.json
+
 settings.xml

@@ -239,5 +239,11 @@
             <artifactId>retrofit2-kotlin-coroutines-experimental-adapter</artifactId>
             <version>1.0.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.xenomachina</groupId>
+            <artifactId>kotlin-argparser</artifactId>
+            <version>2.0.5</version>
+        </dependency>
     </dependencies>
 </project>

@@ -1,11 +1,30 @@
 package com.github.insanusmokrassar.VkWallToTelegramMessages
 
-import com.github.insanusmokrassar.IObjectKRealisations.toIObject
+import com.github.insanusmokrassar.IObjectKRealisations.*
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.VKIntegrationHolder
+import com.xenomachina.argparser.ArgParser
+import com.xenomachina.argparser.ShowHelpException
 import kotlinx.coroutines.experimental.runBlocking
 
+private class LauncherArgumentsParser(parser: ArgParser) {
+    val config_file by parser.positional("File path to config file")
+}
+
+class Config(
+    val accessToken: String,
+    val botApiToken: String,
+    val debug: Boolean = false
+)
+
 fun main(args: Array<String>) {
-    VKIntegrationHolder(args[0]).apply {
+    val config = try {
+        ArgParser(args).parseInto(::LauncherArgumentsParser).run {
+            load(config_file).toObject(Config::class.java)
+        }
+    } catch (e: ShowHelpException) {
+        e.printAndExit()
+    }
+    VKIntegrationHolder(config.accessToken).apply {
         runBlocking {
             wall.get(
                 "hose_socks"
