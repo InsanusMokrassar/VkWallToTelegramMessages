@@ -5,7 +5,10 @@ import com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegrati
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.NewPostCallback
 import com.pengrad.telegrambot.TelegramBot
 import com.pengrad.telegrambot.model.request.ParseMode
+import com.pengrad.telegrambot.request.DeleteMessage
 import com.pengrad.telegrambot.request.SendMessage
+import com.pengrad.telegrambot.response.MessagesResponse
+import com.pengrad.telegrambot.response.SendResponse
 
 class TelegramBotIntegration(
     config: Config
@@ -37,10 +40,30 @@ class TelegramBotIntegration(
     val callback: NewPostCallback = {
         post ->
         val attachmentsMutable = post.flatAdaptedAttachments().toMutableList()
-        handlersOrder.forEach {
-            it(chatId, post, attachmentsMutable).forEach {
-                bot.execute(it)
+        val messagesIds = mutableListOf<Int>()
+        try {
+            handlersOrder.forEach {
+                it(chatId, post, attachmentsMutable).forEach {
+                    bot.execute(it).let {
+                        if (it.isOk) {
+                            when (it) {
+                                is SendResponse -> messagesIds.add(it.message().messageId())
+                                is MessagesResponse -> messagesIds.addAll(it.messages().map { it.messageId() })
+                            }
+                        }
+                    }
+                }
             }
+        } catch (e: Exception) {
+            messagesIds.forEach {
+                bot.execute(
+                    DeleteMessage(
+                        chatId,
+                        it
+                    )
+                )
+            }
+            throw e
         }
     }
 }
