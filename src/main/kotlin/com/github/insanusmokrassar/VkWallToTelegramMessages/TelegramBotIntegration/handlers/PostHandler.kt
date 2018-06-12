@@ -5,6 +5,7 @@ import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.
 import com.pengrad.telegrambot.request.BaseRequest
 
 val handlersOrder = linkedSetOf(
+    LinkHandler(),
     MediaGroupHandler(),
     VideoHandler(),
     PhotoHandler(),
