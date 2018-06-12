@@ -26,7 +26,7 @@ class Post(
     val friendsOnly: Byte = 0,
     val attachments: List<Any>? = null,
     @SerializedName("copy_history")
-    val copyHistory: Post? = null,
+    val copyHistory: List<Post>? = null,
     val is_pinned: Int = 0
 ) {
     val isPost: Boolean
@@ -70,11 +70,15 @@ class Post(
         adaptedAttachments.forEach {
             it.prepareAttachment(vkMethodsHolder)
         }
-        copyHistory ?. prepareAttachments(vkMethodsHolder)
+        copyHistory ?. forEach {
+            it.prepareAttachments(vkMethodsHolder)
+        }
     }
 
     suspend fun flatAdaptedAttachments(): List<Attachment> {
-        return copyHistory ?. flatAdaptedAttachments() ?.let {
+        return copyHistory ?. flatMap {
+            it.flatAdaptedAttachments()
+        } ?.let {
             adaptedAttachments.plus(it)
         } ?: adaptedAttachments
     }

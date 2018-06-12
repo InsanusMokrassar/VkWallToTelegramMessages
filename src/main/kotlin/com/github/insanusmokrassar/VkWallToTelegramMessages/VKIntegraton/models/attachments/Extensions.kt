@@ -16,8 +16,9 @@ private val attachmentsMap = mapOf(
 @Throws(UnsupportedAttachmentException::class)
 fun Any.asAttachment(): Attachment {
     val asIObject = toIObject()
+    val type = asIObject.toObject(Attachment::class.java).type
     return asIObject.toObject(
-        attachmentsMap[asIObject.toObject(Attachment::class.java).type]
-            ?: throw UnsupportedAttachmentException("Object is unsupported attachment")
+        attachmentsMap[type]
+            ?: throw UnsupportedAttachmentException("Object is unsupported attachment: $type")
     )
 }
