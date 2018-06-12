@@ -20,14 +20,16 @@ class TelegramBotIntegration(
     private val chatId = config.chatId
 
     init {
-        bot.execute(
-            SendMessage(
-                chatId,
-                "Bot was inited."
-            ).parseMode(ParseMode.Markdown)
-        ).let {
-            if (!it.isOk) {
-                throw IllegalStateException("Can't send hello message to $chatId: ${it.description()}")
+        if (config.debug) {
+            bot.execute(
+                SendMessage(
+                    chatId,
+                    "Bot was inited."
+                ).parseMode(ParseMode.Markdown)
+            ).let {
+                if (!it.isOk) {
+                    throw IllegalStateException("Can't send hello message to $chatId: ${it.description()}")
+                }
             }
         }
     }
