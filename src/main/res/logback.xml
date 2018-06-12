@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Common appender -->
+    <appender name="common" class="ch.qos.logback.core.FileAppender">
+        <file>common.log</file>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!--Console appender -->
+    <appender name="sout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!-- Root logger -->
+    <root level="info">
+        <appender-ref ref="common" />
+    </root>
+
+    <appender name="HandlersLogs" class="ch.qos.logback.core.FileAppender">
+        <file>handlers.log</file>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <logger name="com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration.handlers.PostHandler" level="info">
+        <appender-ref ref="HandlersLogs"/>
+    </logger>
+
+    <appender name="requests" class="ch.qos.logback.core.FileAppender">
+        <file>updates_requests.log</file>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <logger name="Getting updates" level="info">
+        <appender-ref ref="requests"/>
+    </logger>
+</configuration>

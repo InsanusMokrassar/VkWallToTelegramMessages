@@ -14,6 +14,8 @@ val handlersOrder = linkedSetOf(
     TextHandler()
 )
 
+const val PostHandlerTag = "com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration.handlers.PostHandler"
+
 typealias PostHandler = (
     chatId: Long,
     post: Post,

@@ -3,9 +3,13 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton
 import com.github.insanusmokrassar.VkWallToTelegramMessages.*
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.Post
 import kotlinx.coroutines.experimental.*
+import org.joda.time.DateTime
 import java.util.concurrent.TimeUnit
+import java.util.logging.Logger
 
 typealias NewPostCallback = suspend (Post) -> Unit
+
+private const val VKIntegrationTag = "Getting updates"
 
 class VKIntegration(
     config: Config,
@@ -13,6 +17,8 @@ class VKIntegration(
     private val db: DB
 ) {
     private val methodsHolder = VKMethodsHolder(config.accessToken)
+
+    private val logger = Logger.getLogger(VKIntegrationTag)
 
     private var job = launch {
         while (true) {
@@ -33,12 +39,14 @@ class VKIntegration(
                             offset
                         )
                         ).await().response.items
+                    logger.info("Request list count: ${originalList.size}")
                     if (originalList.isEmpty()) {
                         break
                     }
                     val prepared = originalList.filter {
                         it.date > settings.lastReadDateSeconds
                     }
+                    logger.info("Prepared list count: ${prepared.size}")
                     if (prepared.isEmpty()) {
                         break
                     }
@@ -54,6 +62,7 @@ class VKIntegration(
                         offset += originalList.size
                     }
                 }
+                logger.info("Prepared list count: ${posts.size}")
                 if (posts.isNotEmpty()) {
                     posts.sortedBy {
                         it.date
@@ -65,6 +74,7 @@ class VKIntegration(
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
+                logger.info("Last published post date: ${successPost ?. dateInMillis ?: "unknown"}")
                 successPost ?. dateInMillis ?.let {
                     db.settings = Settings(it)
                 }

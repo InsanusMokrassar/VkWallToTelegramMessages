@@ -1,18 +1,21 @@
 package com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration
 
 import com.github.insanusmokrassar.VkWallToTelegramMessages.Config
+import com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration.handlers.PostHandlerTag
 import com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration.handlers.handlersOrder
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.NewPostCallback
 import com.pengrad.telegrambot.TelegramBot
 import com.pengrad.telegrambot.model.request.ParseMode
-import com.pengrad.telegrambot.request.DeleteMessage
-import com.pengrad.telegrambot.request.SendMessage
+import com.pengrad.telegrambot.request.*
 import com.pengrad.telegrambot.response.MessagesResponse
 import com.pengrad.telegrambot.response.SendResponse
+import java.util.logging.Logger
 
 class TelegramBotIntegration(
     config: Config
 ) {
+    private val logger = Logger.getLogger(PostHandlerTag)
+
     private val bot = TelegramBot.Builder(config.botApiToken).run {
         if (config.debug) {
             debug()
@@ -23,16 +26,22 @@ class TelegramBotIntegration(
     private val chatId = config.chatId
 
     init {
-        if (config.debug) {
+        (if (config.debug) {
             bot.execute(
                 SendMessage(
                     chatId,
                     "Bot was inited."
                 ).parseMode(ParseMode.Markdown)
-            ).let {
-                if (!it.isOk) {
-                    throw IllegalStateException("Can't send hello message to $chatId: ${it.description()}")
-                }
+            )
+        } else {
+            bot.execute(
+                GetChat(
+                    chatId
+                )
+            )
+        }).let {
+            if (!it.isOk) {
+                throw IllegalStateException("Can't send hello message to $chatId: $it")
             }
         }
     }
@@ -55,6 +64,7 @@ class TelegramBotIntegration(
                 }
             }
         } catch (e: Exception) {
+            logger.throwing(this::class.java.simpleName, "callback", e)
             messagesIds.forEach {
                 bot.execute(
                     DeleteMessage(
