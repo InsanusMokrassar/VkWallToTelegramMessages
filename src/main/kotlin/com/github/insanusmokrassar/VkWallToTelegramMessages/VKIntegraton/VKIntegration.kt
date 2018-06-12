@@ -3,20 +3,20 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton
 import com.github.insanusmokrassar.VkWallToTelegramMessages.*
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.Post
 import kotlinx.coroutines.experimental.*
-import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-typealias NewPostsCallback = suspend (List<Post>) -> Unit
+typealias NewPostCallback = suspend (Post) -> Unit
 
 class VKIntegration(
     config: Config,
-    action: NewPostsCallback,
+    action: NewPostCallback,
     private val db: DB
 ) {
     private val methodsHolder = VKMethodsHolder(config.accessToken)
 
     private var job: Job = launch {
         while (true) {
+            var successPost: Post? = null
             try {
                 val settings = db.settings
                 val posts = mutableListOf<Post>()
@@ -54,15 +54,18 @@ class VKIntegration(
                     }
                 }
                 if (posts.isNotEmpty()) {
-                    action(posts)
-                }
-                posts.maxBy { it.date }?.dateInMillis?.let {
-                    db.settings = Settings(it)
+                    posts.forEach {
+                        action(it)
+                        successPost = it
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
                 delay(config.updateDelay, TimeUnit.MILLISECONDS)
+                successPost ?. dateInMillis ?.let {
+                    db.settings = Settings(it)
+                }
             }
         }
     }
