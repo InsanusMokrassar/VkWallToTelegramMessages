@@ -3,7 +3,7 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton
 import com.github.insanusmokrassar.VkWallToTelegramMessages.*
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.Post
 import kotlinx.coroutines.experimental.*
-import org.joda.time.DateTime
+import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
@@ -18,7 +18,7 @@ class VKIntegration(
 ) {
     private val methodsHolder = VKMethodsHolder(config.accessToken)
 
-    private val logger = Logger.getLogger(VKIntegrationTag)
+    private val logger = LoggerFactory.getLogger(VKIntegrationTag)
 
     private var job = launch {
         while (true) {

@@ -1,21 +1,17 @@
 package com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration
 
 import com.github.insanusmokrassar.VkWallToTelegramMessages.Config
-import com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration.handlers.PostHandlerTag
-import com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration.handlers.handlersOrder
+import com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration.handlers.*
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.NewPostCallback
 import com.pengrad.telegrambot.TelegramBot
 import com.pengrad.telegrambot.model.request.ParseMode
 import com.pengrad.telegrambot.request.*
 import com.pengrad.telegrambot.response.MessagesResponse
 import com.pengrad.telegrambot.response.SendResponse
-import java.util.logging.Logger
 
 class TelegramBotIntegration(
     config: Config
 ) {
-    private val logger = Logger.getLogger(PostHandlerTag)
-
     private val bot = TelegramBot.Builder(config.botApiToken).run {
         if (config.debug) {
             debug()
@@ -64,7 +60,7 @@ class TelegramBotIntegration(
                 }
             }
         } catch (e: Exception) {
-            logger.throwing(this::class.java.simpleName, "callback", e)
+            postsLogger.error(this::class.java.simpleName, "Error when try to post message, rollback.", e)
             messagesIds.forEach {
                 bot.execute(
                     DeleteMessage(

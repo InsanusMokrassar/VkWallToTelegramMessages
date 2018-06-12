@@ -17,7 +17,7 @@
     </appender>
 
     <!-- Root logger -->
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="common" />
     </root>
 
@@ -28,7 +28,7 @@
         </layout>
     </appender>
 
-    <logger name="com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration.handlers.PostHandler" level="info">
+    <logger name="com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration.handlers.PostHandler" level="debug">
         <appender-ref ref="HandlersLogs"/>
     </logger>
 
@@ -39,7 +39,7 @@
         </layout>
     </appender>
 
-    <logger name="Getting updates" level="info">
+    <logger name="Getting updates" level="debug">
         <appender-ref ref="requests"/>
     </logger>
 </configuration>
