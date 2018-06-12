@@ -1,7 +1,8 @@
 package com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration
 
 import com.github.insanusmokrassar.VkWallToTelegramMessages.Config
-import com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration.handlers.*
+import com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration.handlers.handlersOrder
+import com.github.insanusmokrassar.VkWallToTelegramMessages.TelegramBotIntegration.handlers.postsLogger
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.NewPostCallback
 import com.pengrad.telegrambot.TelegramBot
 import com.pengrad.telegrambot.model.request.ParseMode

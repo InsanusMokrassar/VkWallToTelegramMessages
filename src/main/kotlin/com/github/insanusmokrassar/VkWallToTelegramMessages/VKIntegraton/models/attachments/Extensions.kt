@@ -1,6 +1,7 @@
 package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments
 
-import com.github.insanusmokrassar.IObjectKRealisations.*
+import com.github.insanusmokrassar.IObjectKRealisations.toIObject
+import com.github.insanusmokrassar.IObjectKRealisations.toObject
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.audio.AudioAttachment
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.doc.DocumentAttachment
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.link.LinkAttachment

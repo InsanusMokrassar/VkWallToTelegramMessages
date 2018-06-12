@@ -4,7 +4,8 @@ import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.Attachment
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.TextAttachment
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.video.VideoAttachment
-import com.pengrad.telegrambot.model.request.*
+import com.pengrad.telegrambot.model.request.InlineKeyboardButton
+import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup
 import com.pengrad.telegrambot.request.*
 
 private const val maxDescriptionLength = 200 - 3

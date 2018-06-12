@@ -1,7 +1,8 @@
 package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton
 
 import com.github.insanusmokrassar.IObjectKRealisations.doUsingDefaultGSON
-import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.methods.*
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.methods.Video
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.methods.Wall
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

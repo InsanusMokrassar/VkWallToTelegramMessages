@@ -1,6 +1,6 @@
 package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.methods
 
-import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.*
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.PostsResponse
 import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -2,10 +2,10 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton
 
 import com.github.insanusmokrassar.VkWallToTelegramMessages.*
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.Post
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
 import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
-import java.util.logging.Logger
 
 typealias NewPostCallback = suspend (Post) -> Unit
 
