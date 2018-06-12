@@ -15,66 +15,55 @@ class VKIntegration(
 ) {
     private val methodsHolder = VKMethodsHolder(config.accessToken)
 
-    private val scheduler = Executors.newScheduledThreadPool(1)
-
-    private var job: Job? = null
-
-    init {
-        scheduler.scheduleAtFixedRate(
-            {
-                job ?: launch {
-                    try {
-                        val settings = db.settings
-                        val posts = mutableListOf<Post>()
-                        var offset = 0
-                        while (true) {
-                            val originalList = (
-                                config.wallOwnerId ?.let {
-                                    methodsHolder.wall.get(
-                                        it,
-                                        offset
-                                    )
-                                } ?: methodsHolder.wall.get(
-                                    config.wallDomain,
-                                    offset
-                                )
-                            ).await().response.items
-                            if (originalList.isEmpty()) {
-                                break
-                            }
-                            val filtered = originalList.filter {
-                                it.dateInMillis > settings.lastReadDate
-                            }
-                            filtered.forEach {
-                                it.adaptedAttachments.forEach {
-                                    it.prepareAttachment(methodsHolder)
-                                }
-                            }
-                            posts.addAll(
-                                filtered.sortedBy { it.date }
+    private var job: Job = launch {
+        while (true) {
+            try {
+                val settings = db.settings
+                val posts = mutableListOf<Post>()
+                var offset = 0
+                while (true) {
+                    val originalList = (
+                        config.wallOwnerId?.let {
+                            methodsHolder.wall.get(
+                                it,
+                                offset
                             )
-                            if (originalList.size > filtered.size) {
-                                break
-                            } else {
-                                offset += originalList.size
-                            }
-                        }
-                        if (posts.isNotEmpty()) {
-                            action(posts)
-                        }
-                        posts.maxBy { it.date } ?.dateInMillis ?.let {
-                            db.settings = Settings(it)
-                        }
-                    } finally {
-                        job = null
+                        } ?: methodsHolder.wall.get(
+                            config.wallDomain,
+                            offset
+                        )
+                        ).await().response.items
+                    if (originalList.isEmpty()) {
+                        break
                     }
-                }.also {
-                    job = it
+                    val filtered = originalList.filter {
+                        it.dateInMillis > settings.lastReadDate
+                    }
+                    filtered.forEach {
+                        it.adaptedAttachments.forEach {
+                            it.prepareAttachment(methodsHolder)
+                        }
+                    }
+                    posts.addAll(
+                        filtered.sortedBy { it.date }
+                    )
+                    if (originalList.size > filtered.size) {
+                        break
+                    } else {
+                        offset += originalList.size
+                    }
                 }
-            },
-            0,
-            config.updateDelay,
-            TimeUnit.MILLISECONDS
-        )
+                if (posts.isNotEmpty()) {
+                    action(posts)
+                }
+                posts.maxBy { it.date }?.dateInMillis?.let {
+                    db.settings = Settings(it)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                delay(config.updateDelay)
+            }
+        }
     }
 }
