@@ -56,7 +56,8 @@ As a result you must have next config:
 {
   "accessToken":"Some your access token which was got from vk application management page",
   "botApiToken": "123456789:ABCDEFGHIJKLMNOPQRTSUVWXYZXYZXYZXYZ",
-  "wallDomain": "Some domain of VK wall",
+  "wallDomain": "Some domain of VK wall", // or "wallOwnerId": NUMBER
+  "updateDelay": 60000,
   "chatId": -100500100500100500 // Can be shortly
 }
 ```
