@@ -62,7 +62,7 @@ class VKIntegration(
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
-                delay(config.updateDelay)
+                delay(config.updateDelay, TimeUnit.MILLISECONDS)
             }
         }
     }
