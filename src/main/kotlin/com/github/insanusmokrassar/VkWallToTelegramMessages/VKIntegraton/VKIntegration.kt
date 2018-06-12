@@ -14,7 +14,7 @@ class VKIntegration(
 ) {
     private val methodsHolder = VKMethodsHolder(config.accessToken)
 
-    private var job: Job = launch {
+    private var job = launch {
         while (true) {
             var successPost: Post? = null
             try {
@@ -36,26 +36,28 @@ class VKIntegration(
                     if (originalList.isEmpty()) {
                         break
                     }
-                    val filtered = originalList.filter {
+                    val prepared = originalList.filter {
                         it.date > settings.lastReadDateSeconds
                     }
-                    if (filtered.isEmpty()) {
+                    if (prepared.isEmpty()) {
                         break
                     }
-                    filtered.forEach {
+                    prepared.forEach {
                         it.prepareAttachments(methodsHolder)
                     }
                     posts.addAll(
-                        filtered.sortedBy { it.date }
+                        prepared
                     )
-                    if (originalList.size > filtered.size) {
+                    if (originalList.size > prepared.size) {
                         break
                     } else {
                         offset += originalList.size
                     }
                 }
                 if (posts.isNotEmpty()) {
-                    posts.forEach {
+                    posts.sortedBy {
+                        it.date
+                    }.forEach {
                         action(it)
                         successPost = it
                     }
