@@ -53,7 +53,11 @@ class Post(
                 realAdaptedAttachments = it.let {
                     list ->
                     text ?.let {
-                        list.plus(TextAttachment(it))
+                        if (text.isEmpty()) {
+                            null
+                        } else {
+                            list.plus(TextAttachment(it))
+                        }
                     } ?: list
                 }
             }

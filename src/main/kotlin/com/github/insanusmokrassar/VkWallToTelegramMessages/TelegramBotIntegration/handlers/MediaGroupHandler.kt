@@ -23,13 +23,12 @@ class MediaGroupHandler : PostHandler {
                     SendMediaGroup(
                         chatId,
                         *it.mapNotNull {
+                            leftAttachments.remove(it)
                             (it as? PhotoAttachment) ?.let {
-                                leftAttachments.remove(it)
                                 it.photo.biggestSize ?. url ?.let {
                                     InputMediaPhoto(it)
                                 }
                             } ?: (it as? VideoAttachment) ?.let {
-                                leftAttachments.remove(it)
                                 InputMediaVideo(it.video.player)
                             }
                         }.toTypedArray()

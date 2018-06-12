@@ -3,10 +3,18 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages
 import com.github.insanusmokrassar.IObjectKRealisations.doUsingDefaultGSON
 import org.joda.time.DateTime
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 class Settings(
     val lastReadDate: Long = DateTime.now().minusDays(1).millis
 ) {
+    private var realTimeInSeconds: Long? = null
+
+    val lastReadDateSeconds: Long
+        get() = realTimeInSeconds ?: TimeUnit.MILLISECONDS.toSeconds(lastReadDate).apply {
+            realTimeInSeconds = this
+        }
+
     constructor(
         settings: Settings
     ) : this(

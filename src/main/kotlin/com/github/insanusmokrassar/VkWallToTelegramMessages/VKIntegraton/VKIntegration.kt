@@ -37,7 +37,10 @@ class VKIntegration(
                         break
                     }
                     val filtered = originalList.filter {
-                        it.dateInMillis > settings.lastReadDate
+                        it.date > settings.lastReadDateSeconds
+                    }
+                    if (filtered.isEmpty()) {
+                        break
                     }
                     filtered.forEach {
                         it.adaptedAttachments.forEach {
@@ -62,10 +65,10 @@ class VKIntegration(
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
-                delay(config.updateDelay, TimeUnit.MILLISECONDS)
                 successPost ?. dateInMillis ?.let {
                     db.settings = Settings(it)
                 }
+                delay(config.updateDelay, TimeUnit.MILLISECONDS)
             }
         }
     }
