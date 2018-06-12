@@ -43,9 +43,7 @@ class VKIntegration(
                         break
                     }
                     filtered.forEach {
-                        it.adaptedAttachments.forEach {
-                            it.prepareAttachment(methodsHolder)
-                        }
+                        it.prepareAttachments(methodsHolder)
                     }
                     posts.addAll(
                         filtered.sortedBy { it.date }

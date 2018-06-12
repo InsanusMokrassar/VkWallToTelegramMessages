@@ -34,7 +34,7 @@ class TelegramBotIntegration(
 
     val callback: NewPostCallback = {
         post ->
-        val attachmentsMutable = post.adaptedAttachments.toMutableList()
+        val attachmentsMutable = post.flatAdaptedAttachments().toMutableList()
         handlersOrder.forEach {
             it(chatId, post, attachmentsMutable).forEach {
                 bot.execute(it)

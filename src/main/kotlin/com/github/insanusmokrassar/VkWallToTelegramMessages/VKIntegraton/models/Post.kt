@@ -2,6 +2,7 @@ package com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models
 
 import com.github.insanusmokrassar.IObjectK.interfaces.IInputObject
 import com.github.insanusmokrassar.IObjectK.interfaces.IObject
+import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.VKMethodsHolder
 import com.github.insanusmokrassar.VkWallToTelegramMessages.VKIntegraton.models.attachments.*
 import com.google.gson.annotations.SerializedName
 import javafx.geometry.Pos
@@ -24,6 +25,8 @@ class Post(
     @SerializedName("friends_only")
     val friendsOnly: Byte = 0,
     val attachments: List<Any>? = null,
+    @SerializedName("copy_history")
+    val copyHistory: Post? = null,
     val is_pinned: Int = 0
 ) {
     val isPost: Boolean
@@ -62,6 +65,19 @@ class Post(
                 }
             }
         }
+
+    suspend fun prepareAttachments(vkMethodsHolder: VKMethodsHolder) {
+        adaptedAttachments.forEach {
+            it.prepareAttachment(vkMethodsHolder)
+        }
+        copyHistory ?. prepareAttachments(vkMethodsHolder)
+    }
+
+    suspend fun flatAdaptedAttachments(): List<Attachment> {
+        return copyHistory ?. flatAdaptedAttachments() ?.let {
+            adaptedAttachments.plus(it)
+        } ?: adaptedAttachments
+    }
 }
 
 class PostsLists(count: Long, items: List<Post>) : Lists<Post>(count, items)
