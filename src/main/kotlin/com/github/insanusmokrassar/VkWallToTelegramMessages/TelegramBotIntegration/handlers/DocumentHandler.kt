@@ -23,7 +23,7 @@ class DocumentHandler : PostHandler {
                     leftAttachments.remove(it)
                     SendDocument(
                         chatId,
-                        URL(it.doc.simpleUrl).openStream().readBytes()
+                        URL(it.doc.url).openStream().readBytes()
                     ).fileName(
                         it.doc.title
                     ).also {
