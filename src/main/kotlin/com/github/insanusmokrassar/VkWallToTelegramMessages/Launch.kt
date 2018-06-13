@@ -21,13 +21,13 @@ fun main(args: Array<String>) {
             val telegramBotIntegration = TelegramBotIntegration(
                 config
             )
-            val vkIntegration = VKIntegration(
-                config,
-                telegramBotIntegration.callback,
-                DB(config.adaptedDbPlace)
-            )
             runBlocking {
-                delay(10, TimeUnit.MINUTES)
+                val vkIntegration = VKIntegration(
+                    config,
+                    telegramBotIntegration.callback,
+                    DB(config.adaptedDbPlace)
+                )
+                vkIntegration.job.join()
             }
         }
     } catch (e: ShowHelpException) {

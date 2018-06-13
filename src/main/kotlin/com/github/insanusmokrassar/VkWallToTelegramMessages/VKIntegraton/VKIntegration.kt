@@ -20,7 +20,7 @@ class VKIntegration(
 
     private val logger = LoggerFactory.getLogger(VKIntegrationTag)
 
-    private var job = launch {
+    val job = launch {
         while (true) {
             var successPost: Post? = null
             try {
