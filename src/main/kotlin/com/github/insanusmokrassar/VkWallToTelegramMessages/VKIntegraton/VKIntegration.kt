@@ -73,13 +73,12 @@ class VKIntegration(
                     }
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
+                logger.error("${this::class.java}: Can't perform messages update", e)
             } finally {
                 logger.info("Last published post date: ${successPost ?. dateInMillis ?: "unknown"}")
                 successPost ?. dateInMillis ?.let {
                     db.settings = Settings(it)
                 }
-                delay(config.updateDelay, TimeUnit.MILLISECONDS)
             }
         }
     }
