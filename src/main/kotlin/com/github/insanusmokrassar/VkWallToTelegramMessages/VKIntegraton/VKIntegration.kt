@@ -69,6 +69,7 @@ class VKIntegration(
                     }.forEach {
                         action(it)
                         successPost = it
+                        delay(2000L)
                     }
                 }
             } catch (e: Exception) {
