@@ -61,7 +61,7 @@ class TelegramBotIntegration(
                 }
             }
         } catch (e: Exception) {
-            postsLogger.error(this::class.java.simpleName, "Error when try to post message, rollback.", e)
+            postsLogger.error("${this::class.java.simpleName}: Error when try to post message, rollback.", e)
             messagesIds.forEach {
                 bot.execute(
                     DeleteMessage(
