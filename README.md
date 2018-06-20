@@ -33,7 +33,7 @@ small manual (it is simple). Remember that all what you need - to get `bot API t
                 "message": {
                     "from": {
                         "chat": {
-                            "id": 123123123 //IT IS YOUR ID AS NUMBER
+                            "id": 123123123
                         }
                     }
                 }
@@ -46,7 +46,7 @@ small manual (it is simple). Remember that all what you need - to get `bot API t
             {
                 "message": {
                     "forward_from_chat": {
-                        "id": -1001286316435 //IT IS CHANNEL/GROUP ID AS NUMBER
+                        "id": -1001286316435
                     }
                 }
             }
@@ -60,7 +60,8 @@ As a result you must have next config:
 {
   "accessToken":"Some your access token which was got from vk application management page",
   "botApiToken": "123456789:ABCDEFGHIJKLMNOPQRTSUVWXYZXYZXYZXYZ",
-  "wallDomain": "Some domain of VK wall", // or "wallOwnerId": NUMBER
+  "wallDomain": "Some domain of VK wall or",
+  "wallOwnerId": NUMBER,
   "updateDelay": 60000,
   "chatId": -100500100500100500 // Can be shortly
 }
