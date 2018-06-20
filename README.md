@@ -1,5 +1,9 @@
 # VkWallToTelegramMessages
 
+## Warning
+
+Before using tis bot, please read [Ограничения и рекомендации](https://vk.com/dev/api_requests?f=3.%20%D0%9E%D0%B3%D1%80%D0%B0%D0%BD%D0%B8%D1%87%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%B8%20%D1%80%D0%B5%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D0%B4%D0%B0%D1%86%D0%B8%D0%B8) or [Api requests](https://vk.com/dev/api_requests) (section `Limits and recommendations`)
+
 ## How to use?
 
 For using this bot you will need to fill four main parameters:
