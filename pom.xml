@@ -24,13 +24,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <scm>
-        <url>https://github.com/insanusmokrassar/${project.artifactId}</url>
-        <tag>HEAD</tag>
-        <developerConnection>
-            scm:git:[fetch=]https://github.com/insanusmokrassar/${project.artifactId}.git[push=]ssh:git@github.com:insanusmokrassar/${project.artifactId}.git
-        </developerConnection>
-    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -176,14 +169,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>bintray-insanusmokrassar-StandardRepository</id>
-            <name>insanusmokrassar-StandardRepository</name>
-            <url>https://api.bintray.com/maven/insanusmokrassar/StandardRepository/${project.artifactId}/;publish=1</url>
-        </repository>
-    </distributionManagement>
 
     <dependencies>
         <dependency>
